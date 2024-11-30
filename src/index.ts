@@ -1,16 +1,11 @@
 // @ts-ignore
 import * as P5 from "p5";
-import { Config } from './Config';
-
+import { Config } from './Config/Config';
+import { GridFactory } from "./Grid/GridFactory";
 
 const config = Config.instance;
+const grid = GridFactory.randomGrid(config.nCellsY, config.nCellsX);
 
-// Game state
-let gameState: number[][] = Array.from({ length: config.nCellsX }, () =>
-    Array.from({ length: config.nCellsY }, () => (Math.random() < 0.2 ? 1 : 0))
-);
-
-// P5 sketch function
 const sketch = (p: P5) => {
     let running = true;
 
@@ -42,43 +37,19 @@ const sketch = (p: P5) => {
     };
 
     const drawCells = () => {
-        for (let x = 0; x < config.nCellsX; x++) {
-            for (let y = 0; y < config.nCellsY; y++) {
-                if (gameState[x][y] === 1) {
+        for (let row = 0; row < config.nCellsY; row++) {
+            for (let col = 0; col < config.nCellsX; col++) {
+                if (grid.cell(col, row) === 1) {
                     p.fill(config.colors.black);
                 } else {
                     p.noFill();
                 }
-                p.rect(x * config.cellWidth, y * config.cellHeight, config.cellWidth, config.cellHeight);
+                p.rect(col * config.cellWidth, row * config.cellHeight, config.cellWidth, config.cellHeight);
             }
         }
     };
 
-    const nextGeneration = () => {
-        const newState: number[][] = JSON.parse(JSON.stringify(gameState));
-
-        for (let x = 0; x < config.nCellsX; x++) {
-            for (let y = 0; y < config.nCellsY; y++) {
-                const nNeighbors =
-                    gameState[(x - 1 + config.nCellsX) % config.nCellsX][(y - 1 + config.nCellsY) % config.nCellsY] +
-                    gameState[x][(y - 1 + config.nCellsY) % config.nCellsY] +
-                    gameState[(x + 1) % config.nCellsX][(y - 1 + config.nCellsY) % config.nCellsY] +
-                    gameState[(x - 1 + config.nCellsX) % config.nCellsX][y] +
-                    gameState[(x + 1) % config.nCellsX][y] +
-                    gameState[(x - 1 + config.nCellsX) % config.nCellsX][(y + 1) % config.nCellsY] +
-                    gameState[x][(y + 1) % config.nCellsY] +
-                    gameState[(x + 1) % config.nCellsX][(y + 1) % config.nCellsY];
-
-                if (gameState[x][y] === 1 && (nNeighbors < 2 || nNeighbors > 3)) {
-                    newState[x][y] = 0;
-                } else if (gameState[x][y] === 0 && nNeighbors === 3) {
-                    newState[x][y] = 1;
-                }
-            }
-        }
-
-        gameState = newState;
-    };
+    const nextGeneration = () => grid.generation();
 
     p.draw = () => {
         if (!running) return;
@@ -97,14 +68,14 @@ const sketch = (p: P5) => {
         ) {
             nextGeneration();
         } else {
-            const x = Math.floor(p.mouseX / config.cellWidth);
-            const y = Math.floor(p.mouseY / config.cellHeight);
-            if (x >= 0 && x < config.nCellsX && y >= 0 && y < config.nCellsY) {
-                gameState[x][y] = gameState[x][y] === 1 ? 0 : 1;
+            const col = Math.floor(p.mouseX / config.cellWidth);
+            const row = Math.floor(p.mouseY / config.cellHeight);
+            if (col >= 0 && col < config.nCellsX && row >= 0 && row < config.nCellsY) {
+                const value = grid.cell(col, row) === 1 ? 0 : 1;
+                grid.setCell(col, row, value);
             }
         }
     };
 };
 
-// Initialize P5 sketch
 new P5(sketch);

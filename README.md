@@ -6,6 +6,7 @@ Different programming languages are accepted.
 ---
 
 ## Requirements
+
 1. **Make simulation real-time.**
 2. **Add pause/resume functionality.**
 3. **Add save/load functionality.**
@@ -15,6 +16,7 @@ Different programming languages are accepted.
 ---
 
 ## High-Level Logic
+
 1. **Initialize the simulation grid.**
 2. Start the simulation with a tick interval of `<n>` seconds.
 3. At each tick:
@@ -24,6 +26,7 @@ Different programming languages are accepted.
 ---
 
 ## General Approach
+
 1. **Plan & document** the general workflow:
     - Define inputs and outputs.
     - Consider adding validation.
@@ -39,16 +42,19 @@ Different programming languages are accepted.
 ---
 
 ## Deadline
+
 - **20th December 2024**
 
 ---
 
 ## Project Submission
+
 Details about how to hand over the project will be provided on **24th November 2024**.
 
 ---
 
 ## Core software design patterns you can use:
+
 - Singleton
 - SOLID
 - Factory

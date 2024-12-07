@@ -18,6 +18,14 @@ export class Grid {
         );
     }
 
+    getInfo() {
+        return {
+            rows: this.rows,
+            cols: this.cols,
+            state: this.state
+        };
+    }
+
     cell(column: number, row: number): GridCell {
         return this.state[row][column];
     }

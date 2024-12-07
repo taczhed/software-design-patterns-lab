@@ -4,7 +4,7 @@ import { Config } from "../Config/Config";
 const config = Config.instance;
 
 class Button {
-    private readonly label: string;
+    private label: string;
     private readonly x: number;
     private readonly y: number;
     private readonly width: number;
@@ -34,12 +34,17 @@ class Button {
     isClicked(mouseX: number, mouseY: number): boolean {
         return mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + this.height;
     }
+
+    setLabel(label: string): void {
+        this.label = label;
+    }
 }
 
+// ButtonBuilder class as Builder example
 export class ButtonBuilder {
     label: string = "Button";
-    x: number = config.buttonX;
-    y: number = config.buttonY;
+    x: number = config.toggleButtonX;
+    y: number = config.toggleButtonY;
     width: number = config.buttonWidth;
     height: number = config.buttonHeight;
     color: number[] = config.colors.green;

@@ -11,8 +11,12 @@ export class Config {
 
     public readonly buttonWidth: number;
     public readonly buttonHeight: number;
-    public readonly buttonX: number;
-    public readonly buttonY: number;
+    public readonly toggleButtonX: number;
+    public readonly toggleButtonY: number;
+    public readonly saveButtonX: number;
+    public readonly saveButtonY: number;
+    public readonly loadButtonX: number;
+    public readonly loadButtonY: number;
 
     public readonly colors: { white: number[]; black: number[]; gray: number[]; green: number[] };
 
@@ -37,8 +41,15 @@ export class Config {
         // Button dimensions
         this.buttonWidth = 200;
         this.buttonHeight = 50;
-        this.buttonX = (this.width - this.buttonWidth) / 2;
-        this.buttonY = this.height - this.buttonHeight - 10;
+
+        this.toggleButtonX = (this.width - this.buttonWidth) / 2;
+        this.toggleButtonY = this.height - this.buttonHeight - 10;
+
+        this.saveButtonX = this.toggleButtonX + this.buttonWidth + 36;
+        this.saveButtonY = this.toggleButtonY;
+
+        this.loadButtonX = this.toggleButtonX - this.buttonWidth - 36;
+        this.loadButtonY = this.toggleButtonY;
     }
 
     // Get the single instance of Config

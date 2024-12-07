@@ -2,6 +2,7 @@
 export class Config {
     static #instance: Config
 
+    public readonly interval: number
     public readonly width: number
     public readonly height: number
     public readonly nCellsX: number
@@ -27,6 +28,7 @@ export class Config {
 
     private constructor() {
         // Grid dimensions and simulation settings
+        this.interval = 0.3
         this.width = 800
         this.height = 600
         this.nCellsX = 40

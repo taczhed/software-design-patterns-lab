@@ -1,3 +1,8 @@
+import * as P5 from "p5";
+import { Config } from "../Config/Config";
+
+const config = Config.instance;
+
 type GridCell = 0 | 1
 
 export class Grid {
@@ -56,5 +61,34 @@ export class Grid {
                 this.state[rowIndex][colIndex] = nextState[rowIndex][colIndex] as GridCell;
             });
         });
+    }
+
+    draw(p: P5) {
+        // Draw Grid
+        p.stroke(config.colors.gray);
+        for (let x = 0; x < config.width; x += config.cellWidth) {
+            for (let y = 0; y < config.height; y += config.cellHeight) {
+                p.line(x, 0, x, config.height);
+                p.line(0, y, config.width, y);
+            }
+        }
+
+        // Draw Cells
+        for (let row = 0; row < config.nCellsY; row++) {
+            for (let col = 0; col < config.nCellsX; col++) {
+                if (this.cell(col, row) === 1) {
+                    p.fill(config.colors.black);
+                } else {
+                    p.noFill();
+                }
+                p.rect(col * config.cellWidth, row * config.cellHeight, config.cellWidth, config.cellHeight);
+            }
+        }
+    }
+
+    isClicked(mouseX: number, mouseY: number): boolean {
+        const col = Math.floor(mouseX / config.cellWidth);
+        const row = Math.floor(mouseY / config.cellHeight);
+        return col >= 0 && col < config.nCellsX && row >= 0 && row < config.nCellsY;
     }
 }
